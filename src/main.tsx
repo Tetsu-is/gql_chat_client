@@ -5,7 +5,7 @@ import './index.css'
 import { ApolloClient, InMemoryCache, ApolloProvider} from '@apollo/client'
 
 const client = new ApolloClient({
-  uri: "https://flyby-router-demo.herokuapp.com/",
+  uri: "http://localhost:8080/",
   cache: new InMemoryCache(),
 });
 

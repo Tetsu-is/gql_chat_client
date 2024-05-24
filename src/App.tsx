@@ -1,19 +1,16 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 import { useQuery, gql } from "@apollo/client";
 
-const GET_LOCATIONS = gql`
-    query GetLocations {
-      locations {
-        id
-        name
-        description
-        photo
-      }
-    }
-  `;
+const GET_MESSAGES = gql`
+query GetMessages($index: Int!) {
+  messages(index: $index) {
+    id
+    user_id
+    user_name
+    body
+  }
+}`
 
 function App() {
   const [count, setCount] = useState(0);
@@ -28,19 +25,15 @@ function App() {
 }
 
 function DisplayLocations() {
-  const { loading, error, data } = useQuery(GET_LOCATIONS);
+  const { loading, error, data } = useQuery(GET_MESSAGES, {variables: {index: 1}});
 
   if (loading) return <p>Loading ...</p>;
   if (error) return <p>Error : {error.message}</p>
 
-  return data.locations.map(({ id, name, description, photo }) => (
+  return data.locations.map(({ id, user_id, user_name, body }:{id:string,user_id:string, user_name:string, body:string }) => (
     <div key={id}>
-      <h3>{name}</h3>
-      <img width="400" height="250" alt="location-reference" src={`${photo}`} />
-      <br />
-      <b>About this location:</b>
-      <p>{description}</p>
-      <br />
+      <h3>userID:{user_id} Name:{user_name}</h3>
+      <p>{body}</p>
     </div>
   ))
 }
