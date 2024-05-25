@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 import { useQuery, gql } from "@apollo/client";
+import MessageForm from "./components/MessageForm";
 
 const GET_MESSAGES = gql`
   query GetMessage($index: Int!) {
@@ -21,6 +22,7 @@ function App() {
       <h2>My first Apollo app</h2>
       <br />
       <DisplayLocations />
+      <MessageForm />
     </div>
   );
 }
@@ -32,7 +34,6 @@ function DisplayLocations() {
 
   if (loading) return <p>Loading ...</p>;
   if (error) return <p>Error : {error.message}</p>;
-
 
   return data.messages.map(
     ({
