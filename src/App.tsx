@@ -3,14 +3,15 @@ import "./App.css";
 import { useQuery, gql } from "@apollo/client";
 
 const GET_MESSAGES = gql`
-query GetMessages($index: Int!) {
-  messages(index: $index) {
-    id
-    user_id
-    user_name
-    body
+  query GetMessage($index: Int!) {
+    messages(index: $index) {
+      id
+      user_id
+      user_name
+      body
+    }
   }
-}`
+`;
 
 function App() {
   const [count, setCount] = useState(0);
@@ -25,18 +26,34 @@ function App() {
 }
 
 function DisplayLocations() {
-  const { loading, error, data } = useQuery(GET_MESSAGES, {variables: {index: 1}});
+  const { loading, error, data } = useQuery(GET_MESSAGES, {
+    variables: { index: 1 },
+  });
 
   if (loading) return <p>Loading ...</p>;
-  if (error) return <p>Error : {error.message}</p>
+  if (error) return <p>Error : {error.message}</p>;
 
-  return data.locations.map(({ id, user_id, user_name, body }:{id:string,user_id:string, user_name:string, body:string }) => (
-    <div key={id}>
-      <h3>userID:{user_id} Name:{user_name}</h3>
-      <p>{body}</p>
-    </div>
-  ))
+
+  return data.messages.map(
+    ({
+      id,
+      user_id,
+      user_name,
+      body,
+    }: {
+      id: string;
+      user_id: string;
+      user_name: string;
+      body: string;
+    }) => (
+      <div key={id}>
+        <h3>
+          userID:{user_id} Name:{user_name}
+        </h3>
+        <p>{body}</p>
+      </div>
+    )
+  );
 }
-
 
 export default App;
